@@ -27,9 +27,13 @@ class _ButtonNewList extends StatelessWidget {
 
     final size = MediaQuery.of(context).size;
     final appTheme = Provider.of<ThemeChanger>(context);
+    double sizeWidth = MediaQuery.of(context).size.width;
+
+    if (sizeWidth > 750)
+      sizeWidth = sizeWidth - 300;
 
     return ButtonTheme(
-      minWidth: size.width * .9,
+      minWidth: sizeWidth * .9,
       height: 100,
       child: RaisedButton(
         onPressed: (){},

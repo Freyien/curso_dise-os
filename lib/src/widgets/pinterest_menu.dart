@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -36,21 +37,25 @@ class PinterestMenu extends StatelessWidget{
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => new _MenuModel(),
-      child: AnimatedOpacity(
-        opacity: (show) ? 1 : 0,
-        duration: Duration(microseconds: 250),
-        child: Builder(
-          builder: (BuildContext context) {
-            final provider = Provider.of<_MenuModel>(context);
-            provider.backgroundColor = this.backgroundColor;
-            provider.primaryColor = this.primaryColor;
-            provider.secondaryColor = this.secondaryColor;
+      child: FadeIn(
+        delay: Duration(milliseconds: 350),
+        duration: Duration(milliseconds: 500),
+        child: AnimatedOpacity(
+          opacity: (show) ? 1 : 0,
+          duration: Duration(microseconds: 250),
+          child: Builder(
+            builder: (BuildContext context) {
+              final provider = Provider.of<_MenuModel>(context);
+              provider.backgroundColor = this.backgroundColor;
+              provider.primaryColor = this.primaryColor;
+              provider.secondaryColor = this.secondaryColor;
 
-            return _PinterestMenuBackground(
-              child: _MenuItems( items )
-            );
-          },
-        )
+              return _PinterestMenuBackground(
+                child: _MenuItems( items )
+              );
+            },
+          )
+        ),
       ),
     );
   }
@@ -66,7 +71,7 @@ class _PinterestMenuBackground extends StatelessWidget {
 
     return Container(
       child: child,
-      width: MediaQuery.of(context).size.width *.60,
+      width: 300,
       height: 50,
       decoration: BoxDecoration(
         color: backgroundColor,

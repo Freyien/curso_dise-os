@@ -9,13 +9,21 @@ import 'package:provider/provider.dart';
 class SlideshowPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    bool islarge = false;
+
+    if( MediaQuery.of(context).size.height > 500 )
+      islarge = true;
+
+    final children = [
+      Expanded(child: MySlideshow()),
+      Expanded(child: MySlideshow())
+    ];
+
     return Scaffold(
       appBar: simpleAppbar(title: 'Slideshow'),
-      body: Column(
-        children: <Widget>[
-          Expanded(child: MySlideshow())
-        ],
-      )
+      body: (islarge) 
+              ? Column(children: children)
+              : Row(children: children)
     );
   }
 }

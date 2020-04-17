@@ -1,12 +1,9 @@
-//import 'package:animate_do/animate_do.dart';
-import 'package:curso_disenios/src/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 import 'package:curso_disenios/src/widgets/headers.dart';
 import 'package:curso_disenios/src/widgets/card_button.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
 class ItemBoton {
 
@@ -48,35 +45,37 @@ class EmergencyPage extends StatelessWidget {
     ).toList();
 
     return Scaffold(
-      body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
-        slivers: <Widget>[
-          SliverPersistentHeader(
-            floating: false,
-            delegate: _SliverCustomHeaderDelegate(
-              minHeight: 125, 
-              maxHeight: 270, 
-              child: Container(
-                margin: EdgeInsets.only(bottom: 5),
-                child: _PageHeader(),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      blurRadius: 5,
-                      color: Colors.black.withOpacity(0.5),
-                      offset: Offset(0, 0)
-                    )
-                  ]
-                ),
+      body: SafeArea(
+        child: CustomScrollView(
+          physics: BouncingScrollPhysics(),
+          slivers: <Widget>[
+            SliverPersistentHeader(
+              floating: false,
+              delegate: _SliverCustomHeaderDelegate(
+                minHeight: 125, 
+                maxHeight: 270, 
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 5),
+                  child: _PageHeader(),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        blurRadius: 5,
+                        color: Colors.black.withOpacity(0.5),
+                        offset: Offset(0, 0)
+                      )
+                    ]
+                  ),
+                )
               )
-            )
-          ),
+            ),
 
-          SliverList(
-            delegate: SliverChildListDelegate(itemMap)
-          )
-        ],
+            SliverList(
+              delegate: SliverChildListDelegate(itemMap)
+            )
+          ],
+        ),
       ),
     );
   }

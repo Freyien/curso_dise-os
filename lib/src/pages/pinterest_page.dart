@@ -51,7 +51,7 @@ class __PinterestGridState extends State<_PinterestGrid> {
         Provider.of<_MenuModel>(context, listen: false).show = true;
       }
 
-    beforeScroll = controller.offset;
+      beforeScroll = controller.offset;
     });
     
     super.initState();
@@ -65,18 +65,23 @@ class __PinterestGridState extends State<_PinterestGrid> {
 
   @override
   Widget build(BuildContext context) {
+    int count = 2;
+
+    if ( MediaQuery.of(context).size.width > 500 )
+      count = 3;
+
     return Container(
-      padding: EdgeInsets.all(5),
+      padding: EdgeInsets.all(10),
       child: new StaggeredGridView.countBuilder(
         physics: BouncingScrollPhysics(),
         controller: controller,
-        crossAxisCount: 4,
+        crossAxisCount: count,
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) => _PinterestItem(index),
         staggeredTileBuilder: (int index) =>
-            new StaggeredTile.count(2, index.isEven ? 2 : 3),
-        mainAxisSpacing: 5.0,
-        crossAxisSpacing: 5.0,
+            new StaggeredTile.count(1, index.isEven ? 1 : 2),
+        mainAxisSpacing: 10.0,
+        crossAxisSpacing: 10.0,
       ),
     );
   }
@@ -90,18 +95,22 @@ class _PinterestItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final number = (this.index % 5) + 1;
+    final appTheme = Provider.of<ThemeChanger>(context);
+    final sufix = (appTheme.darkTheme) ? 'p' : 'b';
+
     return new Container(
       //margin: EdgeInsets.all(2),
       decoration: BoxDecoration(
         //color: Colors.blue,
         border: Border.all(
           width: 1,
-          color: Colors.grey
+          color: Colors.blueGrey
         ),
-        borderRadius: BorderRadius.circular(10)
+        borderRadius: BorderRadius.circular(10),
+        color: appTheme.currentTheme.backgroundColor.withOpacity(.5)
       ),
       child: new Center(
-        child: SvgPicture.asset('assets/svg/slide-$number.svg')
+        child: SvgPicture.asset('assets/svg/slide-$number-$sufix.svg')
       )
     );
   }
@@ -111,24 +120,36 @@ class _PinterestMenuLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double sizeWidth = MediaQuery.of(context).size.width;
     final currentTheme = Provider.of<ThemeChanger>(context).currentTheme;
     final show = Provider.of<_MenuModel>(context).show;
 
+    if (sizeWidth > 750)
+      sizeWidth = sizeWidth - 300;
+
     return Positioned(
-      child: PinterestMenu(
-        show: show,
-        items: [
-          PinterestButton(icon: Icons.pie_chart, onPressed: (){ print('Icon pie_chart'); }),
-          PinterestButton(icon: Icons.search, onPressed: (){ print('Icon search'); }),
-          PinterestButton(icon: Icons.notifications, onPressed: (){ print('Icon notifications'); }),
-          PinterestButton(icon: Icons.supervised_user_circle, onPressed: (){ print('Icon supervised_user_circle'); })
-        ],
-        primaryColor: currentTheme.accentColor,
-        secondaryColor: Colors.grey,
-        backgroundColor: currentTheme.cardColor,
+      child: Container(
+        width: sizeWidth,
+        child: Row(
+          children:<Widget>[
+            Spacer(),
+            PinterestMenu(
+              show: show,
+              items: [
+                PinterestButton(icon: Icons.pie_chart, onPressed: (){ print('Icon pie_chart'); }),
+                PinterestButton(icon: Icons.search, onPressed: (){ print('Icon search'); }),
+                PinterestButton(icon: Icons.notifications, onPressed: (){ print('Icon notifications'); }),
+                PinterestButton(icon: Icons.supervised_user_circle, onPressed: (){ print('Icon supervised_user_circle'); })
+              ],
+              primaryColor: currentTheme.accentColor,
+              secondaryColor: Colors.grey,
+              backgroundColor: currentTheme.primaryColor,
+            ),
+            Spacer(),
+          ] 
+        ),
       ),
       bottom: 30,
-      left: MediaQuery.of(context).size.width * 0.2
     );
   }
 }

@@ -5,18 +5,39 @@ import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:curso_disenios/src/routes/routes.dart';
+import 'package:curso_disenios/src/models/layout_model.dart';
 import 'package:curso_disenios/src/theme/theme.dart';
 
-class LauncherPage extends StatelessWidget {
+class LauncherTabletPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentPage = Provider.of<LayoutModel>(context).currentPage;
+    
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter Designs - Phone'),
+        title: Text('Flutter Designs - Tablet'),
       ),
       drawer: _PrincipalMenu(),
-      body: _OptionList(),
+      body: Row(
+        children: <Widget>[
+
+          //Menú
+          Container(
+            width: 300,
+            height: double.infinity,
+            child: _OptionList(),
+          ),
+
+          VerticalDivider(),
+
+          //Content
+          Expanded(
+            child: currentPage
+          )
+
+        ],
+      ),
     );
   }
 }
@@ -39,7 +60,9 @@ class _OptionList extends StatelessWidget {
           title: Text( item.title ),
           trailing: Icon(Icons.chevron_right, color: appTheme.accentColor,),
           onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => item.page ));
+            final layoutModel = Provider.of<LayoutModel>(context, listen: false);
+            layoutModel.currentPage = item.page;
+
           },
         );
       } 
